@@ -9,7 +9,7 @@ RSpec.describe WS2801::Instance do
 		end
 		
 		it 'can be set' do
-			instance.length(20)
+			instance.length = 20
 			
 			expect(instance.length).to eq 20
 		end
@@ -21,7 +21,7 @@ RSpec.describe WS2801::Instance do
 		end
 		
 		it 'can be set' do
-			instance.device('/dev/spidev0.1')
+			instance.device = '/dev/spidev0.1'
 			
 			expect(instance.device).to eq '/dev/spidev0.1'
 		end

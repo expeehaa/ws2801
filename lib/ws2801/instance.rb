@@ -1,61 +1,15 @@
 module WS2801
 	class Instance
+		attr_accessor :length
+		attr_accessor :strip
+		attr_accessor :device
+		attr_accessor :autowrite
+		
 		def initialize
-			@options = {
-				len: 25,
-				strip: [],
-				device: "/dev/spidev0.0",
-				autowrite: true
-			}
-		end
-		
-		# Set/read length of strip
-		# 
-		# Example:
-		#   >> WS2801.length(25)
-		#   >> WS2801.length
-		#   => 25
-		# 
-		# Arguments (or nil):
-		#   count: (Integer)
-		def length len = nil
-			return @options[:len] if len.nil?
-			@options[:len] = len
-		end
-		
-		# Set/read device
-		# 
-		# Example:
-		#   >> WS2801.device("/dev/spidev0.0")
-		#   >> WS2801.device
-		#   => "/dev/spidev0.0"
-		# 
-		# Arguments (or nil):
-		#   device: (String)
-		def device dev = nil
-			return @options[:device] if dev.nil?
-			@options[:device] = dev
-		end
-		
-		# Set/read current Strip
-		# 
-		# Example;
-		#   >> WS2801.strip
-		#   >> WS2801.strip @newstrip
-		def strip strip = nil
-			return @options[:strip] if strip.nil?
-			@options[:strip] = strip
-		end
-		
-		# Set/read current Autowrite option
-		# Write after each set (default: true)
-		# 
-		# Example;
-		#   >> WS2801.autowrite
-		#   >> WS2801.autowrite @newstrip
-		def autowrite autowrit = nil
-			return @options[:autowrite] if autowrit.nil?
-			@options[:autowrite] = autowrit
+			self.length    = 25
+			self.strip     = []
+			self.device    = '/dev/spidev0.0'
+			self.autowrite = true
 		end
 		
 		# Generate empty strip array
@@ -63,7 +17,7 @@ module WS2801
 		# Example:
 		#   >> WS2801.generate
 		def generate
-			@options[:strip] = Array.new(@options[:len]*3+1) { 0 }
+			self.strip = Array.new(self.length*3+1) { 0 }
 		end
 		
 		# Write colors to the device
@@ -72,14 +26,14 @@ module WS2801
 		# Example:
 		#   >> WS2801.write
 		def write
-			return false if @options[:strip].nil?
+			return false if self.strip.nil?
 			
-			@options[:strip].each_with_index do |s,i|
-				@options[:strip][i] = 0 if @options[:strip][i].nil?
+			self.strip.each_with_index do |s,i|
+				self.strip[i] = 0 if self.strip[i].nil?
 			end
 			
-			File.open(@options[:device], 'w') do |file|
-				file.write(@options[:strip].pack('C*'))
+			File.open(self.device, 'w') do |file|
+				file.write(self.strip.pack('C*'))
 			end
 		end
 		
@@ -96,15 +50,15 @@ module WS2801
 		#   g: (Integer)
 		#   b: (Integer)
 		def set options = {}
-			self.generate if @options[:strip].length == 0
+			self.generate if self.strip.length == 0
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 			options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
 			options[:pixel].each do |i|
-				@options[:strip][(i*3)]   = options[:r] || 0
-				@options[:strip][(i*3)+1] = options[:g] || 0
-				@options[:strip][(i*3)+2] = options[:b] || 0
+				self.strip[(i*3)]   = options[:r] || 0
+				self.strip[(i*3)+1] = options[:g] || 0
+				self.strip[(i*3)+2] = options[:b] || 0
 			end
-			self.write if @options[:autowrite]
+			self.write if self.autowrite
 		end
 		
 		# Fade pixel to color
@@ -121,7 +75,7 @@ module WS2801
 		#   g: (Integer)
 		#   b: (Integer)
 		def fade options = {}
-			self.generate if @options[:strip].length == 0
+			self.generate if self.strip.length == 0
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 			options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
 			options[:r] = 0 if options[:r].nil?
@@ -130,25 +84,25 @@ module WS2801
 			
 			while true
 				options[:pixel].each do |i|
-					#next if @options[:strip][(i*3+2)] == options[:b] and @options[:strip][(i*3+1)] == options[:g] and @options[:strip][(i*3)] == options[:r]
-					if @options[:strip][(i*3)]   > options[:r]
-						@options[:strip][(i*3)]   -= 1
-					elsif @options[:strip][(i*3)]   < options[:r]
-						@options[:strip][(i*3)]   += 1
+					#next if self.strip[(i*3+2)] == options[:b] and self.strip[(i*3+1)] == options[:g] and self.strip[(i*3)] == options[:r]
+					if self.strip[(i*3)]   > options[:r]
+						self.strip[(i*3)]   -= 1
+					elsif self.strip[(i*3)]   < options[:r]
+						self.strip[(i*3)]   += 1
 					end
-					if @options[:strip][(i*3+1)] > options[:g]
-						@options[:strip][(i*3+1)] -= 1
-					elsif @options[:strip][(i*3+1)] < options[:g]
-						@options[:strip][(i*3+1)] += 1
+					if self.strip[(i*3+1)] > options[:g]
+						self.strip[(i*3+1)] -= 1
+					elsif self.strip[(i*3+1)] < options[:g]
+						self.strip[(i*3+1)] += 1
 					end
-					if @options[:strip][(i*3+2)] > options[:b]
-						@options[:strip][(i*3+2)] -= 1
-					elsif @options[:strip][(i*3+2)] < options[:b]
-						@options[:strip][(i*3+2)] -= 1
+					if self.strip[(i*3+2)] > options[:b]
+						self.strip[(i*3+2)] -= 1
+					elsif self.strip[(i*3+2)] < options[:b]
+						self.strip[(i*3+2)] -= 1
 					end
 				end
-				(breakme = true; break) if @options[:strip][(i*3+2)] == options[:b] and @options[:strip][(i*3+1)] == options[:g] and @options[:strip][(i*3)] == options[:r]
-				self.write if @options[:autowrite]
+				(breakme = true; break) if self.strip[(i*3+2)] == options[:b] and self.strip[(i*3+1)] == options[:g] and self.strip[(i*3)] == options[:r]
+				self.write if self.autowrite
 				break if breakme
 				
 				sleep(options[:timeout] || 0.01)
@@ -164,7 +118,7 @@ module WS2801
 		# Arguments:
 		#   pixel - Pixel id
 		def get pixel
-			[@options[:strip][pixel*3], @options[:strip][pixel*3+1], @options[:strip][pixel*3+2]]
+			[self.strip[pixel*3], self.strip[pixel*3+1], self.strip[pixel*3+2]]
 		end
 		
 		# Set off
@@ -173,7 +127,7 @@ module WS2801
 		#   >> WS2801.off
 		def off
 			self.generate
-			self.write if @options[:autowrite]
+			self.write if self.autowrite
 		end
 	end
 end
