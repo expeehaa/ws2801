@@ -49,15 +49,15 @@ module WS2801
 		#   r: (Integer)
 		#   g: (Integer)
 		#   b: (Integer)
-		def set(options = {})
+		def set(pixel: 0...self.length, r: 0, g: 0, b: 0)
 			self.generate(only_if_empty: true)
 			
-			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
-			options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
-			options[:pixel].each do |i|
-				self.strip[(i*3)]   = options[:r] || 0
-				self.strip[(i*3)+1] = options[:g] || 0
-				self.strip[(i*3)+2] = options[:b] || 0
+			pixel = [pixel] if pixel.is_a? Numeric
+			
+			pixel.each do |i|
+				self.strip[(i*3)]   = r
+				self.strip[(i*3)+1] = g
+				self.strip[(i*3)+2] = b
 			end
 			
 			self.write(only_if_autowrite: true)
