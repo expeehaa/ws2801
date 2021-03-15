@@ -1,10 +1,9 @@
 require 'spec_helper'
-require_relative '../../support/file_test_helper'
+require_relative '../../support/spi_test_helper'
 
-RSpec.describe WS2801::Instance, file_write: false do
+RSpec.describe WS2801::Instance, mock_spi: true do
 	let(  :default_instance) { WS2801::Instance.new                                        }
 	let(:writeable_instance) { WS2801::Instance.new(length: 2, device: '/dev/test_device') }
-	let(:buffer            ) { StringIO.new                                                }
 	
 	describe '.new' do
 		it 'accepts parameters' do
@@ -99,43 +98,48 @@ RSpec.describe WS2801::Instance, file_write: false do
 		end
 	end
 	
-	describe '#write', file_write: '/dev/test_device' do
+	describe '#write' do
 		before do |example|
 			writeable_instance.strip = [1,2,3,4,5,6]
 		end
 		
 		it 'writes strip to the device' do
-			expect(writeable_instance.write).to eq 7
-			expect(buffer.string           ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
+			expect(writeable_instance.instance_variable_get(:@spi)).to receive(:xfer).with(txdata: [1,2,3,4,5,6])
+			
+			writeable_instance.write
 		end
 		
 		context 'with parameter "only_if_autowrite"' do
-			it 'does not write with only_if_autowrite set to true and autowrite set to false', file_write: false do
+			it 'does not write with only_if_autowrite set to true and autowrite set to false' do
 				writeable_instance.autowrite = false
 				
-				expect(writeable_instance.write(only_if_autowrite: true )).to eq false
-				expect(buffer.string                                     ).to eq ''
+				expect(writeable_instance.instance_variable_get(:@spi)).not_to receive(:xfer)
+				
+				writeable_instance.write(only_if_autowrite: true )
 			end
 			
 			it 'writes with only_if_autowrite set to true and autowrite set to true' do
 				writeable_instance.autowrite = true
 				
-				expect(writeable_instance.write(only_if_autowrite: true )).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
+				expect(writeable_instance.instance_variable_get(:@spi)).to receive(:xfer).with(txdata: [1,2,3,4,5,6])
+				
+				writeable_instance.write
 			end
 			
 			it 'writes with only_if_autowrite set to false and autowrite set to false' do
 				writeable_instance.autowrite = false
 				
-				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
+				expect(writeable_instance.instance_variable_get(:@spi)).to receive(:xfer).with(txdata: [1,2,3,4,5,6])
+				
+				writeable_instance.write
 			end
 			
 			it 'writes with only_if_autowrite set to false and autowrite set to true' do
 				writeable_instance.autowrite = true
 				
-				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
+				expect(writeable_instance.instance_variable_get(:@spi)).to receive(:xfer).with(txdata: [1,2,3,4,5,6])
+				
+				writeable_instance.write
 			end
 		end
 	end
@@ -176,7 +180,7 @@ RSpec.describe WS2801::Instance, file_write: false do
 	end
 	
 	describe '#off' do
-		context 'with autowrite off', file_write: false do
+		context 'with autowrite off' do
 			before do
 				writeable_instance.autowrite = false
 			end
@@ -189,13 +193,13 @@ RSpec.describe WS2801::Instance, file_write: false do
 			end
 		end
 		
-		context 'with autowrite on', file_write: '/dev/test_device' do
+		context 'with autowrite on' do
 			it 'sets all values in #strip to zeros and autowrites to device' do
 				writeable_instance.length = 4
 				writeable_instance.strip  = [1,2,3,4,5,6,7,8,9,1,2,3]
 				
-				expect{writeable_instance.off}.to change{writeable_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3]).to([0,0,0,0,0,0,0,0,0,0,0,0])
-				expect(buffer.string       ).to eq "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+				expect(writeable_instance.instance_variable_get(:@spi)).to receive(:xfer).with(txdata: [0,0,0,0,0,0,0,0,0,0,0,0])
+				expect{writeable_instance.off                         }.to change{writeable_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3]).to([0,0,0,0,0,0,0,0,0,0,0,0])
 			end
 		end
 	end

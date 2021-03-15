@@ -1,3 +1,4 @@
+require 'spi'
 require_relative 'effects/fade'
 require_relative 'effects/pulse'
 require_relative 'effects/stroboscope'
@@ -6,7 +7,6 @@ module WS2801
 	class Instance
 		attr_accessor :length
 		attr_accessor :strip
-		attr_accessor :device
 		attr_accessor :autowrite
 		
 		include WS2801::Effects::Fade
@@ -16,8 +16,17 @@ module WS2801
 		def initialize(length: 25, strip: [], device: '/dev/spidev0.0', autowrite: true)
 			self.length    = length
 			self.strip     = strip
-			self.device    = device
 			self.autowrite = autowrite
+			
+			reset_spi(device)
+		end
+		
+		def device
+			@spi.instance_variable_get(:@device)
+		end
+		
+		def device=(value)
+			reset_spi(value)
 		end
 		
 		def reset_strip
@@ -39,9 +48,7 @@ module WS2801
 		#   >> WS2801.write
 		def write(only_if_autowrite: false)
 			if !only_if_autowrite || self.autowrite
-				File.open(self.device, 'w') do |file|
-					file.write((self.strip+[0]).pack('C*'))
-				end
+				@spi.xfer(txdata: self.strip)
 			else
 				false
 			end
@@ -97,6 +104,11 @@ module WS2801
 		
 		def expected_strip_length
 			3*self.length
+		end
+		
+		def reset_spi(device)
+			@spi       = SPI.new(device: device)
+			@spi.speed = 1000000
 		end
 	end
 end

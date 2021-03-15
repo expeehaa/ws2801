@@ -1,6 +1,7 @@
 require 'spec_helper'
+require_relative '../support/spi_test_helper'
 
-RSpec.describe WS2801 do
+RSpec.describe WS2801, mock_spi: true do
 	describe '.instance' do
 		it 'returns an instance' do
 			instance = WS2801.instance
