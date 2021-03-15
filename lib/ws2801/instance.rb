@@ -26,7 +26,7 @@ module WS2801
 		#   >> WS2801.generate
 		def generate(only_if_empty: false)
 			if !only_if_empty || self.strip.length == 0
-				self.strip = Array.new(self.length*3+1) { 0 }
+				self.strip = Array.new(self.length*3) { 0 }
 			end
 		end
 		
@@ -38,7 +38,7 @@ module WS2801
 		def write(only_if_autowrite: false)
 			if !only_if_autowrite || self.autowrite
 				File.open(self.device, 'w') do |file|
-					file.write(self.strip.pack('C*'))
+					file.write((self.strip+[0]).pack('C*'))
 				end
 			else
 				false

@@ -68,14 +68,14 @@ RSpec.describe WS2801::Instance do
 		it 'generates strip values' do
 			default_instance.generate
 			
-			expect(default_instance.strip.length).to eq 3*25+1
+			expect(default_instance.strip.length).to eq 3*25
 			expect(default_instance.strip       ).to all(be 0)
 		end
 		
 		it 'accepts a parameter "only_if_empty"' do
 			default_instance.length = 2
 			
-			expect{default_instance.generate(only_if_empty: false)}.    to change{default_instance.strip}.from([]).to([0,0,0,0,0,0,0])
+			expect{default_instance.generate(only_if_empty: false)}.    to change{default_instance.strip}.from([]).to([0,0,0,0,0,0])
 			
 			default_instance.length = 1
 			
@@ -83,7 +83,7 @@ RSpec.describe WS2801::Instance do
 			
 			default_instance.strip = []
 			
-			expect{default_instance.generate(only_if_empty: true )}.    to change{default_instance.strip}.from([]).to([0,0,0,0])
+			expect{default_instance.generate(only_if_empty: true )}.    to change{default_instance.strip}.from([]).to([0,0,0])
 		end
 	end
 	
@@ -91,12 +91,12 @@ RSpec.describe WS2801::Instance do
 		let(:buffer) { StringIO.new }
 		
 		before do |example|
-			writeable_instance.strip = [1,2,3,4,5,6,7]
+			writeable_instance.strip = [1,2,3,4,5,6]
 		end
 		
 		it 'writes strip to the device' do
 			expect(writeable_instance.write).to eq 7
-			expect(buffer.string           ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+			expect(buffer.string           ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
 		end
 		
 		context 'with parameter "only_if_autowrite"' do
@@ -111,21 +111,21 @@ RSpec.describe WS2801::Instance do
 				writeable_instance.autowrite = true
 				
 				expect(writeable_instance.write(only_if_autowrite: true )).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
 			end
 			
 			it 'writes with only_if_autowrite set to false and autowrite set to false' do
 				writeable_instance.autowrite = false
 				
 				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
 			end
 			
 			it 'writes with only_if_autowrite set to false and autowrite set to true' do
 				writeable_instance.autowrite = true
 				
 				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
-				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\u0000"
 			end
 		end
 	end
@@ -139,27 +139,27 @@ RSpec.describe WS2801::Instance do
 		end
 		
 		it 'sets a single pixel' do
-			expect{default_instance.set(pixel: 1,       r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,0,0,0,0,0,0,0])
+			expect{default_instance.set(pixel: 1,       r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,0,0,0,0,0,0])
 		end
 		
 		it 'sets a range of pixels' do
-			expect{default_instance.set(pixel: 1..3,    r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2,0])
+			expect{default_instance.set(pixel: 1..3,    r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2])
 		end
 		
 		it 'sets an array of pixels' do
-			expect{default_instance.set(pixel: [1,2,3], r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2,0])
+			expect{default_instance.set(pixel: [1,2,3], r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2])
 		end
 		
 		it 'has default values' do
-			default_instance.strip = [1,2,3,4,5,6,7,8,9,1,2,3,4]
+			default_instance.strip = [1,2,3,4,5,6,7,8,9,1,2,3]
 			
-			expect{default_instance.set                                  }.to change{default_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3,4]).to([0,0,0,0,0,0,0,0,0,0,0,0,4])
+			expect{default_instance.set                                  }.to change{default_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3]).to([0,0,0,0,0,0,0,0,0,0,0,0])
 		end
 	end
 	
 	describe '#get' do
 		it 'returns the RGB values of a single pixel in #strip' do
-			default_instance.strip = [0,0,0,1,2,3,0,0,0,0]
+			default_instance.strip = [0,0,0,1,2,3,0,0,0]
 			
 			expect(default_instance.get(1)).to eq [1,2,3]
 		end
