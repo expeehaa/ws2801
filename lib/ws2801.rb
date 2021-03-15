@@ -142,19 +142,17 @@ module WS2801
 					@@options[:strip][(i*3)]   += 1
 				end
 				if @@options[:strip][(i*3+1)] > options[:g]
-					@@options[:strip][(i*3+1)] -= 1 
+					@@options[:strip][(i*3+1)] -= 1
 				elsif @@options[:strip][(i*3+1)] < options[:g]
 					@@options[:strip][(i*3+1)] += 1
-				end 
+				end
 				if @@options[:strip][(i*3+2)] > options[:b]
 					@@options[:strip][(i*3+2)] -= 1
 				elsif @@options[:strip][(i*3+2)] < options[:b]
 					@@options[:strip][(i*3+2)] -= 1
 				end
 			end
-			(breakme = true; break) if @@options[:strip][(i*3+2)] == options[:b] and @@options[:strip][(i*3+1)] == options[:g] and 
-@@options[:strip][(i*3)] == 
-options[:r]
+			(breakme = true; break) if @@options[:strip][(i*3+2)] == options[:b] and @@options[:strip][(i*3+1)] == options[:g] and @@options[:strip][(i*3)] == options[:r]
 			WS2801.write if @@options[:autowrite]
 			break if breakme
 			

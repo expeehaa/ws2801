@@ -43,8 +43,8 @@ module WS2801::Effects
 				g = options[:g]
 				b = options[:b]
 			end
-			WS2801.set({ 
-				:pixel => options[:pixel], 
+			WS2801.set({
+				:pixel => options[:pixel],
 				:r => r,
 				:g => g,
 				:b => b
