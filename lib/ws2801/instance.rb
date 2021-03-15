@@ -21,12 +21,10 @@ module WS2801
 		end
 		
 		def reset_strip
-			self.strip = Array.new(3*self.length) { 0 }
+			self.strip = Array.new(expected_strip_length) { 0 }
 		end
 		
 		def resize_strip
-			expected_strip_length = 3*self.length
-			
 			if self.strip.length < expected_strip_length
 				self.strip.append(*Array.new(expected_strip_length-self.strip.length){ 0 })
 			elsif self.strip.length > expected_strip_length
@@ -93,6 +91,12 @@ module WS2801
 			self.reset_strip
 			
 			self.write(only_if_autowrite: true)
+		end
+		
+		private
+		
+		def expected_strip_length
+			3*self.length
 		end
 	end
 end
