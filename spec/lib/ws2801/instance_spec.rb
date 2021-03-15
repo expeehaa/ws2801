@@ -18,7 +18,7 @@ RSpec.describe WS2801::Instance, mock_spi: true do
 	
 	describe '#length' do
 		it 'has a default value' do
-			expect(default_instance.length).to eq 25
+			expect(default_instance.length).to eq 32
 		end
 		
 		it 'can be set' do
@@ -68,7 +68,7 @@ RSpec.describe WS2801::Instance, mock_spi: true do
 		it 'generates strip values' do
 			default_instance.reset_strip
 			
-			expect(default_instance.strip.length).to eq 3*25
+			expect(default_instance.strip.length).to eq 3*32
 			expect(default_instance.strip       ).to all(be 0)
 		end
 	end
@@ -77,7 +77,7 @@ RSpec.describe WS2801::Instance, mock_spi: true do
 		it 'generates strip values' do
 			default_instance.resize_strip
 			
-			expect(default_instance.strip.length).to eq 3*25
+			expect(default_instance.strip.length).to eq 3*32
 			expect(default_instance.strip       ).to all(be 0)
 		end
 		
