@@ -16,8 +16,10 @@ module WS2801
 		# 
 		# Example:
 		#   >> WS2801.generate
-		def generate
-			self.strip = Array.new(self.length*3+1) { 0 }
+		def generate(only_if_empty: false)
+			if !only_if_empty || self.strip.length == 0
+				self.strip = Array.new(self.length*3+1) { 0 }
+			end
 		end
 		
 		# Write colors to the device
@@ -50,7 +52,8 @@ module WS2801
 		#   g: (Integer)
 		#   b: (Integer)
 		def set options = {}
-			self.generate if self.strip.length == 0
+			self.generate(only_if_empty: true)
+			
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 			options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
 			options[:pixel].each do |i|
@@ -75,7 +78,8 @@ module WS2801
 		#   g: (Integer)
 		#   b: (Integer)
 		def fade options = {}
-			self.generate if self.strip.length == 0
+			self.generate(only_if_empty: true)
+			
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 			options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
 			options[:r] = 0 if options[:r].nil?

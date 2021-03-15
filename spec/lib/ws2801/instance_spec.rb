@@ -34,5 +34,19 @@ RSpec.describe WS2801::Instance do
 			expect(instance.strip.length).to eq 3*25+1
 			expect(instance.strip       ).to all(be 0)
 		end
+		
+		it 'accepts a parameter "only_if_empty"' do
+			instance.length = 2
+			
+			expect{instance.generate(only_if_empty: false)}.    to change{instance.strip}.from([]).to([0,0,0,0,0,0,0])
+			
+			instance.length = 1
+			
+			expect{instance.generate(only_if_empty: true )}.not_to change{instance.strip}
+			
+			instance.strip = []
+			
+			expect{instance.generate(only_if_empty: true )}.    to change{instance.strip}.from([]).to([0,0,0,0])
+		end
 	end
 end
