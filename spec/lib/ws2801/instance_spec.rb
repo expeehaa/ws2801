@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../support/file_test_helper'
 
-RSpec.describe WS2801::Instance do
+RSpec.describe WS2801::Instance, file_write: false do
 	let(  :default_instance) { WS2801::Instance.new                                        }
 	let(:writeable_instance) { WS2801::Instance.new(length: 2, device: '/dev/test_device') }
 	let(:buffer            ) { StringIO.new                                                }
