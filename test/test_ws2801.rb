@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'ws2801'
+require_relative '../lib/ws2801'
 
 class WS2801_Test < Test::Unit::TestCase
 	def test_length_true
