@@ -121,7 +121,7 @@ module WS2801
 		# Arguments:
 		#   pixel - Pixel id
 		def get(pixel)
-			[self.strip[pixel*3], self.strip[pixel*3+1], self.strip[pixel*3+2]]
+			self.strip[(pixel*3)..(pixel*3+2)]
 		end
 		
 		# Set off
