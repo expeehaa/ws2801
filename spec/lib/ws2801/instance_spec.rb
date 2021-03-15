@@ -3,6 +3,17 @@ require 'spec_helper'
 RSpec.describe WS2801::Instance do
 	let(:instance) { WS2801::Instance.new }
 	
+	describe '.new' do
+		it 'accepts parameters' do
+			instance = WS2801::Instance.new(length: 10, strip: [1,2,3], device: 'test_asdf', autowrite: false)
+			
+			expect(instance.length   ).to eq 10
+			expect(instance.strip    ).to eq [1,2,3]
+			expect(instance.device   ).to eq 'test_asdf'
+			expect(instance.autowrite).to eq false
+		end
+	end
+	
 	describe '#length' do
 		it 'has a default value' do
 			expect(instance.length).to eq 25

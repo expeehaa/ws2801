@@ -5,11 +5,11 @@ module WS2801
 		attr_accessor :device
 		attr_accessor :autowrite
 		
-		def initialize
-			self.length    = 25
-			self.strip     = []
-			self.device    = '/dev/spidev0.0'
-			self.autowrite = true
+		def initialize(length: 25, strip: [], device: '/dev/spidev0.0', autowrite: true)
+			self.length    = length
+			self.strip     = strip
+			self.device    = device
+			self.autowrite = autowrite
 		end
 		
 		# Generate empty strip array
