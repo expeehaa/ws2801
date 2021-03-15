@@ -156,4 +156,12 @@ RSpec.describe WS2801::Instance do
 			expect{default_instance.set                                  }.to change{default_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3,4]).to([0,0,0,0,0,0,0,0,0,0,0,0,4])
 		end
 	end
+	
+	describe '#get' do
+		it 'returns the RGB values of a single pixel in #strip' do
+			default_instance.strip = [0,0,0,1,2,3,0,0,0,0]
+			
+			expect(default_instance.get(1)).to eq [1,2,3]
+		end
+	end
 end
