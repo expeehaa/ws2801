@@ -153,15 +153,15 @@ RSpec.describe WS2801::Instance, mock_spi: true do
 		end
 		
 		it 'sets a single pixel' do
-			expect{default_instance.set(pixel: 1,       r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,0,0,0,0,0,0])
+			expect{default_instance.set(pixel: 1,       r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,2,7,5,0,0,0,0,0,0])
 		end
 		
 		it 'sets a range of pixels' do
-			expect{default_instance.set(pixel: 1..3,    r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2])
+			expect{default_instance.set(pixel: 1..3,    r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,2,7,5,2,7,5,2,7,5])
 		end
 		
 		it 'sets an array of pixels' do
-			expect{default_instance.set(pixel: [1,2,3], r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2])
+			expect{default_instance.set(pixel: [1,2,3], r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,2,7,5,2,7,5,2,7,5])
 		end
 		
 		it 'has default values' do

@@ -72,7 +72,7 @@ module WS2801
 			pixel = [pixel] if pixel.is_a? Numeric
 			
 			pixel.each do |i|
-				self.strip[(i*3)..(i*3+2)] = [r,g,b]
+				self.strip[(i*3)..(i*3+2)] = [b,g,r]
 			end
 			
 			self.write(only_if_autowrite: true)
