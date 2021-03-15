@@ -1,7 +1,9 @@
 require 'spec_helper'
+require_relative '../../support/file_test_helper'
 
 RSpec.describe WS2801::Instance do
-	let(:default_instance) { WS2801::Instance.new }
+	let(  :default_instance) { WS2801::Instance.new                                        }
+	let(:writeable_instance) { WS2801::Instance.new(length: 2, device: '/dev/test_device') }
 	
 	describe '.new' do
 		it 'accepts parameters' do
@@ -82,6 +84,49 @@ RSpec.describe WS2801::Instance do
 			default_instance.strip = []
 			
 			expect{default_instance.generate(only_if_empty: true )}.    to change{default_instance.strip}.from([]).to([0,0,0,0])
+		end
+	end
+	
+	describe '#write', file_write: '/dev/test_device' do
+		let(:buffer) { StringIO.new }
+		
+		before do |example|
+			writeable_instance.strip = [1,2,3,4,5,6,7]
+		end
+		
+		it 'writes strip to the device' do
+			expect(writeable_instance.write).to eq 7
+			expect(buffer.string           ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+		end
+		
+		context 'with parameter "only_if_autowrite"' do
+			it 'does not write with only_if_autowrite set to true and autowrite set to false', file_write: false do
+				writeable_instance.autowrite = false
+				
+				expect(writeable_instance.write(only_if_autowrite: true )).to eq false
+				expect(buffer.string                                     ).to eq ''
+			end
+			
+			it 'writes with only_if_autowrite set to true and autowrite set to true' do
+				writeable_instance.autowrite = true
+				
+				expect(writeable_instance.write(only_if_autowrite: true )).to eq 7
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+			end
+			
+			it 'writes with only_if_autowrite set to false and autowrite set to false' do
+				writeable_instance.autowrite = false
+				
+				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+			end
+			
+			it 'writes with only_if_autowrite set to false and autowrite set to true' do
+				writeable_instance.autowrite = true
+				
+				expect(writeable_instance.write(only_if_autowrite: false)).to eq 7
+				expect(buffer.string                                     ).to eq "\u0001\u0002\u0003\u0004\u0005\u0006\a"
+			end
 		end
 	end
 end
