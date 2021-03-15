@@ -9,4 +9,6 @@ Gem::Specification.new do |s|
 	s.email         = 'roman@pramberger.ch'
 	s.homepage      = 'https://github.com/b1nary/ws2801'
 	s.require_paths = ['lib']
+	
+	s.add_dependency 'spi'
 end

@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    ws2801 (2.0.0)
+      spi
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,6 +26,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
+    spi (0.1.1)
 
 PLATFORMS
   ruby
@@ -27,6 +34,7 @@ PLATFORMS
 DEPENDENCIES
   pry
   rspec (~> 3.10)
+  ws2801!
 
 BUNDLED WITH
    2.1.4
