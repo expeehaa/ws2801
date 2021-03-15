@@ -4,6 +4,7 @@ require_relative '../../support/file_test_helper'
 RSpec.describe WS2801::Instance do
 	let(  :default_instance) { WS2801::Instance.new                                        }
 	let(:writeable_instance) { WS2801::Instance.new(length: 2, device: '/dev/test_device') }
+	let(:buffer            ) { StringIO.new                                                }
 	
 	describe '.new' do
 		it 'accepts parameters' do
@@ -99,8 +100,6 @@ RSpec.describe WS2801::Instance do
 	end
 	
 	describe '#write', file_write: '/dev/test_device' do
-		let(:buffer) { StringIO.new }
-		
 		before do |example|
 			writeable_instance.strip = [1,2,3,4,5,6]
 		end
@@ -177,8 +176,6 @@ RSpec.describe WS2801::Instance do
 	end
 	
 	describe '#off' do
-		let(:buffer) { StringIO.new }
-		
 		context 'with autowrite off', file_write: false do
 			before do
 				writeable_instance.autowrite = false
