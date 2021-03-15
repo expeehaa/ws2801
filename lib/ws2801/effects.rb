@@ -11,8 +11,8 @@ module WS2801::Effects
 	# Stroboscope effect
 	# 
 	# Example:
-	#   >> WS2801E.stroboscope({ :timeout => 0.25, :times => 22, :r => 255 })
-	#   >> WS2801E.stroboscope({ :b => 255, :g => 255 })
+	#   >> WS2801E.stroboscope({ timeout: 0.25, times: 22, r: 255 })
+	#   >> WS2801E.stroboscope({ b: 255, g: 255 })
 	# 
 	# Arguments (or nil):
 	#   pixel: (Number-Array|Integer|:all)
@@ -44,10 +44,10 @@ module WS2801::Effects
 				b = options[:b]
 			end
 			WS2801.set({
-				:pixel => options[:pixel],
-				:r => r,
-				:g => g,
-				:b => b
+				pixel: options[:pixel],
+				r: r,
+				g: g,
+				b: b
 			})
 			sleep( options[:timeout] )
 		end
@@ -56,8 +56,8 @@ module WS2801::Effects
 	# Pulse Effect
 	# 
 	# Example:
-	#   >> WS2801E.pulse({ :direction => :outer, :r => 255 })
-	#   >> WS2801E.pulse({ :b => 255, :g => 255 })
+	#   >> WS2801E.pulse({ direction: :outer, r: 255 })
+	#   >> WS2801E.pulse({ b: 255, g: 255 })
 	# 
 	# Arguments (or nil):
 	#   pixel: (Number-Array|Integer|:all) [default: :all]
@@ -81,13 +81,13 @@ module WS2801::Effects
 		if options[:direction] == :start
 			WS2801.length.times do |i|
 				WS2801.generate if !options[:keep]
-				WS2801.set({ :r => options[:r], :g => options[:g], :b => options[:b], :pixel => i })
+				WS2801.set({ r: options[:r], g: options[:g], b: options[:b], pixel: i })
 				sleep(options[:timeout])
 			end
 		elsif options[:direction] == :end
 			WS2801.length.times do |i|
 				WS2801.generate if !options[:keep]
-				WS2801.set({ :r => options[:r], :g => options[:g], :b => options[:b], :pixel => WS2801.length-i })
+				WS2801.set({ r: options[:r], g: options[:g], b: options[:b], pixel: WS2801.length-i })
 				sleep(options[:timeout])
 			end
 		elsif options[:direction] == :inner
@@ -98,14 +98,14 @@ module WS2801::Effects
 			WS2801.generate if !options[:keep]
 			((WS2801.length/2)+1).times do |i|
 				WS2801.generate if !options[:keep]
-				WS2801.set({ :pixel => [first-i, first+i], :r => options[:r], :g => options[:g], :b => options[:b] })
+				WS2801.set({ pixel: [first-i, first+i], r: options[:r], g: options[:g], b: options[:b] })
 				sleep(options[:timeout])
 			end
 		elsif options[:direction] == :outer
 			WS2801.generate if !options[:keep]
 			((WS2801.length/2)+1).times do |i|
 				WS2801.generate if !options[:keep]
-				WS2801.set({ :pixel => [0+i, WS2801.length-i], :r => options[:r], :g => options[:g], :b => options[:b] })
+				WS2801.set({ pixel: [0+i, WS2801.length-i], r: options[:r], g: options[:g], b: options[:b] })
 				sleep(options[:timeout])
 			end
 		end

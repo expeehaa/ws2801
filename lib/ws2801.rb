@@ -8,10 +8,10 @@
 #
 module WS2801
 	@@options = {
-		:len => 25,
-		:strip => [],
-		:device => "/dev/spidev0.0",
-		:autowrite => true
+		len: 25,
+		strip: [],
+		device: "/dev/spidev0.0",
+		autowrite: true
 	}
 	
 	# Set/read length of strip
@@ -91,15 +91,15 @@ module WS2801
 	# Set pixel to color
 	# 
 	# Example:
-	#   >> WS2801.set { :r => 255, :pixel => [1..10] }
-	#   >> WS2801.set { :g => 128, :pixel => :all }
-	#   >> WS2801.set { :r => 40, :g => 255, :b => 200, :pixel => 4 }
+	#   >> WS2801.set { r: 255, pixel: [1..10] }
+	#   >> WS2801.set { g: 128, pixel: :all }
+	#   >> WS2801.set { r: 40, g: 255, b: 200, pixel: 4 }
 	# 
 	# Options:
-	#   :pixel => []      # array with pixel ids
-	#   :r => (Integer)
-	#   :g => (Integer)
-	#   :b => (Integer)
+	#   pixel: []      # array with pixel ids
+	#   r: (Integer)
+	#   g: (Integer)
+	#   b: (Integer)
 	def self.set options = {}
 		WS2801.generate if @@options[:strip].length == 0
 		options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
@@ -115,16 +115,16 @@ module WS2801
 	# Fade pixel to color
 	# 
 	# Example:
-	#   >> WS2801.set { :r => 255, :pixel => [1..10], :timeout => 0.1 }
-	#   >> WS2801.set { :g => 128, :pixel => :all }
-	#   >> WS2801.set { :r => 40, :g => 255, :b => 200, :pixel => 4 }
+	#   >> WS2801.set { r: 255, pixel: [1..10], timeout: 0.1 }
+	#   >> WS2801.set { g: 128, pixel: :all }
+	#   >> WS2801.set { r: 40, g: 255, b: 200, pixel: 4 }
 	# 
 	# Options:
-	#   :pixel => []      # array with pixel ids
-	#   :timeout => (Float)
-	#   :r => (Integer)
-	#   :g => (Integer)
-	#   :b => (Integer)
+	#   pixel: []      # array with pixel ids
+	#   timeout: (Float)
+	#   r: (Integer)
+	#   g: (Integer)
+	#   b: (Integer)
 	def self.fade options = {}
 		WS2801.generate if @@options[:strip].length == 0
 		options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
