@@ -27,15 +27,19 @@ module WS2801
 		# 
 		# Example:
 		#   >> WS2801.write
-		def write
-			return false if self.strip.nil?
-			
-			self.strip.each_with_index do |s,i|
-				self.strip[i] = 0 if self.strip[i].nil?
-			end
-			
-			File.open(self.device, 'w') do |file|
-				file.write(self.strip.pack('C*'))
+		def write(only_if_autowrite: false)
+			if !only_if_autowrite || self.autowrite
+				return false if self.strip.nil?
+				
+				self.strip.each_with_index do |s,i|
+					self.strip[i] = 0 if self.strip[i].nil?
+				end
+				
+				File.open(self.device, 'w') do |file|
+					file.write(self.strip.pack('C*'))
+				end
+			else
+				false
 			end
 		end
 		
@@ -61,7 +65,8 @@ module WS2801
 				self.strip[(i*3)+1] = options[:g] || 0
 				self.strip[(i*3)+2] = options[:b] || 0
 			end
-			self.write if self.autowrite
+			
+			self.write(only_if_autowrite: true)
 		end
 		
 		# Fade pixel to color
@@ -106,7 +111,9 @@ module WS2801
 					end
 				end
 				(breakme = true; break) if self.strip[(i*3+2)] == options[:b] and self.strip[(i*3+1)] == options[:g] and self.strip[(i*3)] == options[:r]
-				self.write if self.autowrite
+				
+				self.write(only_if_autowrite: true)
+				
 				break if breakme
 				
 				sleep(options[:timeout] || 0.01)
@@ -131,7 +138,8 @@ module WS2801
 		#   >> WS2801.off
 		def off
 			self.generate
-			self.write if self.autowrite
+			
+			self.write(only_if_autowrite: true)
 		end
 	end
 end
