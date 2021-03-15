@@ -13,7 +13,7 @@ module WS2801
 		:device => "/dev/spidev0.0",
 		:autowrite => true
 	}
-
+	
 	# Set/read length of strip
 	# 
 	# Example:
@@ -27,7 +27,7 @@ module WS2801
 		return @@options[:len] if len.nil?
 		@@options[:len] = len
 	end
-
+	
 	# Set/read device
 	# 
 	# Example:
@@ -41,7 +41,7 @@ module WS2801
 		return @@options[:device] if dev.nil?
 		@@options[:device] = dev
 	end
-
+	
 	# Set/read current Strip
 	# 
 	# Example;
@@ -51,7 +51,7 @@ module WS2801
 		return @@options[:strip] if strip.nil?
 		@@options[:strip] = strip
 	end
-
+	
 	# Set/read current Autowrite option
 	# Write after each set (default: true)
 	# 
@@ -62,7 +62,7 @@ module WS2801
 		return @@options[:autowrite] if autowrit.nil?
 		@@options[:autowrite] = autowrit
 	end
-
+	
 	# Generate empty strip array
 	# 
 	# Example:
@@ -70,7 +70,7 @@ module WS2801
 	def self.generate
 		@@options[:strip] = Array.new(@@options[:len]*3+1) { 0 }
 	end
-
+	
 	# Write colors to the device
 	# (this needs root rights)
 	# 
@@ -78,16 +78,16 @@ module WS2801
 	#   >> WS2801.write
 	def self.write
 		return false if @@options[:strip].nil?
-	
+		
 		@@options[:strip].each_with_index do |s,i|
 			@@options[:strip][i] = 0 if @@options[:strip][i].nil?
 		end
-
+		
 		File.open(@@options[:device], 'w') do |file|
 			file.write(@@options[:strip].pack('C*'))
 		end
 	end
-
+	
 	# Set pixel to color
 	# 
 	# Example:
@@ -111,7 +111,7 @@ module WS2801
 		end
 		WS2801.write if @@options[:autowrite]
 	end
-
+	
 	# Fade pixel to color
 	# 
 	# Example:
@@ -132,7 +132,7 @@ module WS2801
 		options[:r] = 0 if options[:r].nil?
 		options[:g] = 0 if options[:g].nil?
 		options[:b] = 0 if options[:b].nil?
-
+		
 		while true
 			options[:pixel].each do |i|
 				#next if @@options[:strip][(i*3+2)] == options[:b] and @@options[:strip][(i*3+1)] == options[:g] and @@options[:strip][(i*3)] == options[:r]
@@ -157,11 +157,11 @@ module WS2801
 options[:r]
 			WS2801.write if @@options[:autowrite]
 			break if breakme
-
+			
 			sleep(options[:timeout] || 0.01)
 		end
 	end
-
+	
 	# Get Pixel
 	# 
 	# Example:
@@ -173,7 +173,7 @@ options[:r]
 	def self.get pixel
 		[@@options[:strip][pixel*3], @@options[:strip][pixel*3+1], @@options[:strip][pixel*3+2]]
 	end
-
+	
 	# Set off
 	# 
 	# Example:

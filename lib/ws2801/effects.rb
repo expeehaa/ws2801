@@ -31,7 +31,7 @@ module WS2801::Effects
 		options[:times] = 40 if options[:times] == 0
 		options[:timeout] = options[:timeout].to_f
 		options[:timeout] = 0.03 if options[:timeout] == 0.0
-
+		
 		breakme = 0
 		options[:times].times do |c|
 			if c % 2 == 0
@@ -76,7 +76,7 @@ module WS2801::Effects
 		options[:direction] = :start if options[:direction].nil?
 		options[:timeout] = 0.1 if options[:timeout].to_f == 0.0
 		options[:keep] = true if options[:keep].nil?
-
+		
 		WS2801.generate if !options[:keep]
 		if options[:direction] == :start
 			WS2801.length.times do |i|
