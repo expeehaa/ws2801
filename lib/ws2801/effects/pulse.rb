@@ -25,16 +25,16 @@ module WS2801
 				options[:timeout] = 0.1 if options[:timeout].to_f == 0.0
 				options[:keep] = true if options[:keep].nil?
 				
-				self.generate if !options[:keep]
+				self.reset_strip if !options[:keep]
 				if options[:direction] == :start
 					self.length.times do |i|
-						self.generate if !options[:keep]
+						self.reset_strip if !options[:keep]
 						self.set({ r: options[:r], g: options[:g], b: options[:b], pixel: i })
 						sleep(options[:timeout])
 					end
 				elsif options[:direction] == :end
 					self.length.times do |i|
-						self.generate if !options[:keep]
+						self.reset_strip if !options[:keep]
 						self.set({ r: options[:r], g: options[:g], b: options[:b], pixel: self.length-i })
 						sleep(options[:timeout])
 					end
@@ -43,16 +43,16 @@ module WS2801
 					if first % 1 != 0
 						first = first.to_i + 1
 					end
-					self.generate if !options[:keep]
+					self.reset_strip if !options[:keep]
 					((self.length/2)+1).times do |i|
-						self.generate if !options[:keep]
+						self.reset_strip if !options[:keep]
 						self.set({ pixel: [first-i, first+i], r: options[:r], g: options[:g], b: options[:b] })
 						sleep(options[:timeout])
 					end
 				elsif options[:direction] == :outer
-					self.generate if !options[:keep]
+					self.reset_strip if !options[:keep]
 					((self.length/2)+1).times do |i|
-						self.generate if !options[:keep]
+						self.reset_strip if !options[:keep]
 						self.set({ pixel: [0+i, self.length-i], r: options[:r], g: options[:g], b: options[:b] })
 						sleep(options[:timeout])
 					end

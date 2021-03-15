@@ -20,13 +20,17 @@ module WS2801
 			self.autowrite = autowrite
 		end
 		
-		# Generate empty strip array
-		# 
-		# Example:
-		#   >> WS2801.generate
-		def generate(only_if_empty: false)
-			if !only_if_empty || self.strip.length == 0
-				self.strip = Array.new(self.length*3) { 0 }
+		def reset_strip
+			self.strip = Array.new(3*self.length) { 0 }
+		end
+		
+		def resize_strip
+			expected_strip_length = 3*self.length
+			
+			if self.strip.length < expected_strip_length
+				self.strip.append(*Array.new(expected_strip_length-self.strip.length){ 0 })
+			elsif self.strip.length > expected_strip_length
+				self.strip.pop(self.strip.length-expected_strip_length)
 			end
 		end
 		
@@ -58,7 +62,7 @@ module WS2801
 		#   g: (Integer)
 		#   b: (Integer)
 		def set(pixel: 0...self.length, r: 0, g: 0, b: 0)
-			self.generate(only_if_empty: true)
+			self.resize_strip
 			
 			pixel = [pixel] if pixel.is_a? Numeric
 			
@@ -86,7 +90,7 @@ module WS2801
 		# Example:
 		#   >> WS2801.off
 		def off
-			self.generate
+			self.reset_strip
 			
 			self.write(only_if_autowrite: true)
 		end

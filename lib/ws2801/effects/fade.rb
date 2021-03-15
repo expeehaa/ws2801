@@ -15,7 +15,7 @@ module WS2801
 			#   g: (Integer)
 			#   b: (Integer)
 			def fade(options = {})
-				self.generate(only_if_empty: true)
+				self.resize_strip
 				
 				options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 				options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric

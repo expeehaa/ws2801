@@ -34,9 +34,9 @@ RSpec.describe WS2801::Instance do
 		end
 		
 		it 'can be set' do
-			default_instance.strip = [0,0,0,0]
+			default_instance.strip = [0,0,0]
 			
-			expect(default_instance.strip).to eq [0,0,0,0]
+			expect(default_instance.strip).to eq [0,0,0]
 		end
 	end
 	
@@ -64,26 +64,37 @@ RSpec.describe WS2801::Instance do
 		end
 	end
 	
-	describe '#generate' do
+	describe '#reset_strip' do
 		it 'generates strip values' do
-			default_instance.generate
+			default_instance.reset_strip
+			
+			expect(default_instance.strip.length).to eq 3*25
+			expect(default_instance.strip       ).to all(be 0)
+		end
+	end
+	
+	describe '#resize_strip' do
+		it 'generates strip values' do
+			default_instance.resize_strip
 			
 			expect(default_instance.strip.length).to eq 3*25
 			expect(default_instance.strip       ).to all(be 0)
 		end
 		
-		it 'accepts a parameter "only_if_empty"' do
+		it 'expands a strip' do
 			default_instance.length = 2
+			default_instance.strip  = [1,2,3]
 			
-			expect{default_instance.generate(only_if_empty: false)}.    to change{default_instance.strip}.from([]).to([0,0,0,0,0,0])
-			
+			expect{default_instance.resize_strip}.    to change{default_instance.strip}.from([1,2,3]).to([1,2,3,0,0,0])
+			expect{default_instance.resize_strip}.not_to change{default_instance.strip}
+		end
+		
+		it 'shrinks a strip' do
 			default_instance.length = 1
+			default_instance.strip  = [1,2,3,4,5,6]
 			
-			expect{default_instance.generate(only_if_empty: true )}.not_to change{default_instance.strip}
-			
-			default_instance.strip = []
-			
-			expect{default_instance.generate(only_if_empty: true )}.    to change{default_instance.strip}.from([]).to([0,0,0])
+			expect{default_instance.resize_strip}.    to change{default_instance.strip}.from([1,2,3,4,5,6]).to([1,2,3])
+			expect{default_instance.resize_strip}.not_to change{default_instance.strip}
 		end
 	end
 	
@@ -135,7 +146,7 @@ RSpec.describe WS2801::Instance do
 			default_instance.length    = 4
 			default_instance.autowrite = false
 			
-			default_instance.generate
+			default_instance.reset_strip
 		end
 		
 		it 'sets a single pixel' do
