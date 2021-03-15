@@ -51,7 +51,7 @@ module WS2801
 		#   r: (Integer)
 		#   g: (Integer)
 		#   b: (Integer)
-		def set options = {}
+		def set(options = {})
 			self.generate(only_if_empty: true)
 			
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
@@ -77,7 +77,7 @@ module WS2801
 		#   r: (Integer)
 		#   g: (Integer)
 		#   b: (Integer)
-		def fade options = {}
+		def fade(options = {})
 			self.generate(only_if_empty: true)
 			
 			options[:pixel] = (0..(self.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
@@ -121,7 +121,7 @@ module WS2801
 		# 
 		# Arguments:
 		#   pixel - Pixel id
-		def get pixel
+		def get(pixel)
 			[self.strip[pixel*3], self.strip[pixel*3+1], self.strip[pixel*3+2]]
 		end
 		
