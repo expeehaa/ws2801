@@ -4,9 +4,7 @@ Gem::Specification.new do |s|
 	s.date = "2013-01-12"
 	s.summary = "Controlling ws2801 chip from Ruby on Raspberry PI or similar (RGB LED Stripes/Pixel)"
 	s.description = "Controlling ws2801 chip from Ruby on Raspberry PI or similar (RGB LED Stripes/Pixel)"
-	s.files = [
-		"lib/ws2801.rb", "lib/ws2801/effects.rb"
-	]
+	s.files = Dir['lib/**/*', 'README.md']
 	s.author = "Roman Pramberger"
 	s.email = "roman@pramberger.ch"
 	s.homepage = "https://github.com/b1nary/ws2801"
