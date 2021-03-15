@@ -57,28 +57,28 @@ module WS2801::Effects
 	#
 	# Pulse Effect
 	#
-    # Example:
-    #    >> WS2801E.pulse({ :direction => :outer, :r => 255 })
-    #    >> WS2801E.pulse({ :b => 255, :g => 255 })
-    #
-    # Arguments (or nil):
-    #    pixel: (Number-Array|Integer|:all) [default: :all]
-    #    r: (Integer) 0-255 red [default: 0]
-    #    g: (Integer) 0-255 green [default: 0]
-    #    b: (Integer) 0-255 blue [default: 0]
-    #    direction: (Symbol) :start | :end | :inner | :outer [default: :start]
-    #    timeout: (Float) [default: 0.1]
+	# Example:
+	#    >> WS2801E.pulse({ :direction => :outer, :r => 255 })
+	#    >> WS2801E.pulse({ :b => 255, :g => 255 })
+	#
+	# Arguments (or nil):
+	#    pixel: (Number-Array|Integer|:all) [default: :all]
+	#    r: (Integer) 0-255 red [default: 0]
+	#    g: (Integer) 0-255 green [default: 0]
+	#    b: (Integer) 0-255 blue [default: 0]
+	#    direction: (Symbol) :start | :end | :inner | :outer [default: :start]
+	#    timeout: (Float) [default: 0.1]
 	#    keep: (Boolean) if pixels get blacked out [default: true]
-    #
+	#
 	def self.pulse options = {}
-        options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
-        options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
-        options[:r] = 0 if options[:r].nil?
-        options[:g] = 0 if options[:g].nil?
-        options[:b] = 0 if options[:b].nil?
+		options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
+		options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
+		options[:r] = 0 if options[:r].nil?
+		options[:g] = 0 if options[:g].nil?
+		options[:b] = 0 if options[:b].nil?
 		options[:direction] = :start if options[:direction].nil?
 		options[:timeout] = 0.1 if options[:timeout].to_f == 0.0
-		options[:keep] = true if options[:keep].nil?		
+		options[:keep] = true if options[:keep].nil?
 
 		WS2801.generate if !options[:keep]
 		if options[:direction] == :start
@@ -99,18 +99,18 @@ module WS2801::Effects
 				first = first.to_i + 1
 			end
 			WS2801.generate if !options[:keep]
-            ((WS2801.length/2)+1).times do |i|
+			((WS2801.length/2)+1).times do |i|
 				WS2801.generate if !options[:keep]
 				WS2801.set({ :pixel => [first-i, first+i], :r => options[:r], :g => options[:g], :b => options[:b] })
 				sleep(options[:timeout])
 			end
 		elsif options[:direction] == :outer
- 			WS2801.generate if !options[:keep]
+			WS2801.generate if !options[:keep]
 			((WS2801.length/2)+1).times do |i|
 				WS2801.generate if !options[:keep]
 				WS2801.set({ :pixel => [0+i, WS2801.length-i], :r => options[:r], :g => options[:g], :b => options[:b] })
 				sleep(options[:timeout])
 			end
 		end
-	end	
+	end
 end

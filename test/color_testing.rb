@@ -35,7 +35,7 @@ end
 # Blink red
 20.times do |i|
 	if i % 2 == 0
-		WS2801.set :r => 255	
+		WS2801.set :r => 255
 	else
 		WS2801.off
 	end
@@ -45,7 +45,7 @@ end
 # Blink green
 40.times do |i|
 	if i % 2 == 0
-		WS2801.set :g => 255	
+		WS2801.set :g => 255
 	else
 		WS2801.off
 	end

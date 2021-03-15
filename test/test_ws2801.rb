@@ -3,15 +3,15 @@ require 'ws2801'
 
 class WS2801_Test < Test::Unit::TestCase
 
-  def test_length_true
+	def test_length_true
 		WS2801.length(20)
-    assert_equal 20, WS2801.length
-  end
+		assert_equal 20, WS2801.length
+	end
 
-  def test_length_false
+	def test_length_false
 		WS2801.length(10)
-    assert_not_equal 20, WS2801.length
-  end
+		assert_not_equal 20, WS2801.length
+	end
 
 	def test_device
 		assert_equal "/dev/spidev0.0", WS2801.device
