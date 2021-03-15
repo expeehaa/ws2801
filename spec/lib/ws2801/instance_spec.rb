@@ -129,4 +129,31 @@ RSpec.describe WS2801::Instance do
 			end
 		end
 	end
+	
+	describe '#set' do
+		before do
+			default_instance.length    = 4
+			default_instance.autowrite = false
+			
+			default_instance.generate
+		end
+		
+		it 'sets a single pixel' do
+			expect{default_instance.set(pixel: 1,       r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,0,0,0,0,0,0,0])
+		end
+		
+		it 'sets a range of pixels' do
+			expect{default_instance.set(pixel: 1..3,    r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2,0])
+		end
+		
+		it 'sets an array of pixels' do
+			expect{default_instance.set(pixel: [1,2,3], r: 5, g: 7, b: 2)}.to change{default_instance.strip}.from([0,0,0,0,0,0,0,0,0,0,0,0,0]).to([0,0,0,5,7,2,5,7,2,5,7,2,0])
+		end
+		
+		it 'has default values' do
+			default_instance.strip = [1,2,3,4,5,6,7,8,9,1,2,3,4]
+			
+			expect{default_instance.set                                  }.to change{default_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3,4]).to([0,0,0,0,0,0,0,0,0,0,0,0,4])
+		end
+	end
 end
