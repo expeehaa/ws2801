@@ -1,9 +1,15 @@
+require_relative 'effects/pulse'
+require_relative 'effects/stroboscope'
+
 module WS2801
 	class Instance
 		attr_accessor :length
 		attr_accessor :strip
 		attr_accessor :device
 		attr_accessor :autowrite
+		
+		include WS2801::Effects::Pulse
+		include WS2801::Effects::Stroboscope
 		
 		def initialize(length: 25, strip: [], device: '/dev/spidev0.0', autowrite: true)
 			self.length    = length
