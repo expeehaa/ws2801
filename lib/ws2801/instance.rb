@@ -29,12 +29,6 @@ module WS2801
 		#   >> WS2801.write
 		def write(only_if_autowrite: false)
 			if !only_if_autowrite || self.autowrite
-				return false if self.strip.nil?
-				
-				self.strip.each_with_index do |s,i|
-					self.strip[i] = 0 if self.strip[i].nil?
-				end
-				
 				File.open(self.device, 'w') do |file|
 					file.write(self.strip.pack('C*'))
 				end
