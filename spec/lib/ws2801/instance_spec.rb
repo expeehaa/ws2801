@@ -15,6 +15,18 @@ RSpec.describe WS2801::Instance do
 		end
 	end
 	
+	describe '#strip' do
+		it 'has a default value' do
+			expect(instance.strip).to eq []
+		end
+		
+		it 'can be set' do
+			instance.strip = [0,0,0,0]
+			
+			expect(instance.strip).to eq [0,0,0,0]
+		end
+	end
+	
 	describe '#device' do
 		it 'has a default value' do
 			expect(instance.device).to eq '/dev/spidev0.0'
@@ -24,6 +36,18 @@ RSpec.describe WS2801::Instance do
 			instance.device = '/dev/spidev0.1'
 			
 			expect(instance.device).to eq '/dev/spidev0.1'
+		end
+	end
+	
+	describe '#autowrite' do
+		it 'has a default value' do
+			expect(instance.autowrite).to eq true
+		end
+		
+		it 'can be set' do
+			instance.autowrite = false
+			
+			expect(instance.autowrite).to eq false
 		end
 	end
 	
