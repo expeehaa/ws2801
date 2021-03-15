@@ -175,4 +175,31 @@ RSpec.describe WS2801::Instance do
 			expect(default_instance.get(1)).to eq [1,2,3]
 		end
 	end
+	
+	describe '#off' do
+		let(:buffer) { StringIO.new }
+		
+		context 'with autowrite off', file_write: false do
+			before do
+				writeable_instance.autowrite = false
+			end
+			
+			it 'sets all values in #strip to zeros and autowrites to device' do
+				writeable_instance.length = 4
+				writeable_instance.strip  = [1,2,3,4,5,6,7,8,9,1,2,3]
+				
+				expect{writeable_instance.off}.to change{writeable_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3]).to([0,0,0,0,0,0,0,0,0,0,0,0])
+			end
+		end
+		
+		context 'with autowrite on', file_write: '/dev/test_device' do
+			it 'sets all values in #strip to zeros and autowrites to device' do
+				writeable_instance.length = 4
+				writeable_instance.strip  = [1,2,3,4,5,6,7,8,9,1,2,3]
+				
+				expect{writeable_instance.off}.to change{writeable_instance.strip}.from([1,2,3,4,5,6,7,8,9,1,2,3]).to([0,0,0,0,0,0,0,0,0,0,0,0])
+				expect(buffer.string       ).to eq "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+			end
+		end
+	end
 end
