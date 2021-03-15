@@ -8,21 +8,19 @@
 #
 #
 module WS2801::Effects
-	#
 	# Stroboscope effect
-	#
+	# 
 	# Example:
-	#    >> WS2801E.stroboscope({ :timeout => 0.25, :times => 22, :r => 255 })
-	#    >> WS2801E.stroboscope({ :b => 255, :g => 255 })
-	#
+	#   >> WS2801E.stroboscope({ :timeout => 0.25, :times => 22, :r => 255 })
+	#   >> WS2801E.stroboscope({ :b => 255, :g => 255 })
+	# 
 	# Arguments (or nil):
-	#    pixel: (Number-Array|Integer|:all)
-	#    r: (Integer) 0-255 red
-	#    g: (Integer) 0-255 green
-	#    b: (Integer) 0-255 blue
-	#    timeout: (Float)
-	#    times: (Integer)
-	#
+	#   pixel: (Number-Array|Integer|:all)
+	#   r: (Integer) 0-255 red
+	#   g: (Integer) 0-255 green
+	#   b: (Integer) 0-255 blue
+	#   timeout: (Float)
+	#   times: (Integer)
 	def self.stroboscope options = {}
 		options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 		options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
@@ -54,22 +52,21 @@ module WS2801::Effects
 			sleep( options[:timeout] )
 		end
 	end
-	#
+	
 	# Pulse Effect
-	#
+	# 
 	# Example:
-	#    >> WS2801E.pulse({ :direction => :outer, :r => 255 })
-	#    >> WS2801E.pulse({ :b => 255, :g => 255 })
-	#
+	#   >> WS2801E.pulse({ :direction => :outer, :r => 255 })
+	#   >> WS2801E.pulse({ :b => 255, :g => 255 })
+	# 
 	# Arguments (or nil):
-	#    pixel: (Number-Array|Integer|:all) [default: :all]
-	#    r: (Integer) 0-255 red [default: 0]
-	#    g: (Integer) 0-255 green [default: 0]
-	#    b: (Integer) 0-255 blue [default: 0]
-	#    direction: (Symbol) :start | :end | :inner | :outer [default: :start]
-	#    timeout: (Float) [default: 0.1]
-	#    keep: (Boolean) if pixels get blacked out [default: true]
-	#
+	#   pixel: (Number-Array|Integer|:all) [default: :all]
+	#   r: (Integer) 0-255 red [default: 0]
+	#   g: (Integer) 0-255 green [default: 0]
+	#   b: (Integer) 0-255 blue [default: 0]
+	#   direction: (Symbol) :start | :end | :inner | :outer [default: :start]
+	#   timeout: (Float) [default: 0.1]
+	#   keep: (Boolean) if pixels get blacked out [default: true]
 	def self.pulse options = {}
 		options[:pixel] = (0..(WS2801.length-1)).to_a if options[:pixel].nil? or options[:pixel] == :all
 		options[:pixel] = [options[:pixel]] if options[:pixel].is_a? Numeric
