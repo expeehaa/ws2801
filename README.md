@@ -44,9 +44,9 @@ Set first half to bright white
 
     WS2801.set pixel: (0..(WS2801.length/2)).to_a, r: 255, g: 255, b: 255
 
-Change length (default: 25)
+Change length (default: 32)
 
-    WS2801.length 50
+    WS2801.length = 50
 
 Internally, the method calls on `WS2801` in the above examples are delegated to an instance of `WS2801::Instance`.
 If you need more control over the pixels or happen to have multiple devices, you can create new instances of the `WS2801::Instance` class to work with the LEDs.
