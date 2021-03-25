@@ -38,7 +38,7 @@ Set off
 
 Set first half to bright white
 
-    WS2801.set pixel: (0..(WS2801.length/2)).to_a, r: 255, g: 255, b: 255
+    WS2801.set pixel: 0..(WS2801.length/2), r: 255, g: 255, b: 255
 
 Change length (default: 32)
 
