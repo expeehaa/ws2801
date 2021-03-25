@@ -48,6 +48,13 @@ Change length (default: 25)
 
     WS2801.length 50
 
+Internally, the method calls on `WS2801` in the above examples are delegated to an instance of `WS2801::Instance`.
+If you need more control over the pixels or happen to have multiple devices, you can create new instances of the `WS2801::Instance` class to work with the LEDs.
+
+    instance = WS2801::Instance.new(length: 32, device: '/dev/spidev0.1', autowrite: false)
+    
+    instance.set g: 255
+
 [**Full Documentation**](http://rubydoc.info/github/b1nary/ws2801/master/WS2801)
 
 ---
