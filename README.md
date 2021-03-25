@@ -26,15 +26,15 @@ Install directly from Rubygems
 
 Set all to green
 
-    WS2801.set :g => 255
+    WS2801.set g: 255
 
 Set first pixel to blue
 
-    WS2801.set :pixel => 0, :b => 255
+    WS2801.set pixel: 0, b: 255
 
 Fade some pixel to red
 
-    WS2801.fade :pixel => [1,4,7,12,18], :r => 255
+    WS2801.fade pixel: [1,4,7,12,18], r: 255
 
 Set off
 
@@ -42,7 +42,7 @@ Set off
 
 Set first half to bright white
 
-    WS2801.set :pixel => (0..(WS2801.length/2)).to_a, :r => 255, :g => 255, :b => 255
+    WS2801.set pixel: (0..(WS2801.length/2)).to_a, r: 255, g: 255, b: 255
 
 Change length (default: 25)
 
