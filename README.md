@@ -18,13 +18,17 @@ Controlling LED Stripes/Pixel with ws2801 chips from Ruby on Raspberry PI or sim
 
 Install directly from Rubygems
 
-    gem install ws2801
+```ruby
+gem install ws2801
+```
 
 When using bundler, add this to your `Gemfile`
 
-    gem 'ws2801'
-    # OR for the git version
-    gem 'ws2801', git: 'https://github.com/expeehaa/ws2801'
+```ruby
+gem 'ws2801'
+# OR for the git version
+gem 'ws2801', git: 'https://github.com/expeehaa/ws2801'
+```
 
 ---
 
@@ -32,30 +36,42 @@ When using bundler, add this to your `Gemfile`
 
 Set all to green
 
-    WS2801.set g: 255
+```ruby
+WS2801.set g: 255
+```
 
 Set first pixel to blue
 
-    WS2801.set pixel: 0, b: 255
+```ruby
+WS2801.set pixel: 0, b: 255
+```
 
 Set off
 
-    WS2801.off
+```ruby
+WS2801.off
+```
 
 Set first half to bright white
 
-    WS2801.set pixel: 0..(WS2801.length/2), r: 255, g: 255, b: 255
+```ruby
+WS2801.set pixel: 0..(WS2801.length/2), r: 255, g: 255, b: 255
+```
 
 Change length (default: 32)
 
-    WS2801.length = 50
+```ruby
+WS2801.length = 50
+```
 
 Internally, the method calls on `WS2801` in the above examples are delegated to an instance of `WS2801::Instance`.
 If you need more control over the pixels or happen to have multiple devices, you can create new instances of the `WS2801::Instance` class to work with the LEDs.
 
-    instance = WS2801::Instance.new(length: 32, device: '/dev/spidev0.1', autowrite: false)
-    
-    instance.set g: 255
+```ruby
+instance = WS2801::Instance.new(length: 32, device: '/dev/spidev0.1', autowrite: false)
+
+instance.set g: 255
+```
 
 [**Full Documentation**](http://rubydoc.info/github/b1nary/ws2801/master/WS2801)
 
@@ -69,7 +85,9 @@ Effects are currently untested and may not work.
 
 Fade some pixel to red
 
-    WS2801.fade pixel: [1,4,7,12,18], r: 255
+```ruby
+WS2801.fade pixel: [1,4,7,12,18], r: 255
+```
 
 ---
 
