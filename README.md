@@ -32,10 +32,6 @@ Set first pixel to blue
 
     WS2801.set pixel: 0, b: 255
 
-Fade some pixel to red
-
-    WS2801.fade pixel: [1,4,7,12,18], r: 255
-
 Set off
 
     WS2801.off
@@ -56,6 +52,18 @@ If you need more control over the pixels or happen to have multiple devices, you
     instance.set g: 255
 
 [**Full Documentation**](http://rubydoc.info/github/b1nary/ws2801/master/WS2801)
+
+## Effects
+
+In addition to simply setting pixels, the library also provides methods for some effects/procedures.
+They can be called like any other method.
+
+Effects are currently untested and may not work.
+
+
+Fade some pixel to red
+
+    WS2801.fade pixel: [1,4,7,12,18], r: 255
 
 ---
 
