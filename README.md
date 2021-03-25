@@ -9,7 +9,7 @@ Controlling LED Stripes/Pixel with ws2801 chips from Ruby on Raspberry PI or sim
 *   Used Pixels
 [12mm Diffused Digital RGB LED Pixels](http://www.play-zone.ch/de/12mm-diffused-digital-rgb-led-pixels-25er-strang-ws2801.html) (other products, with same chipset should work fine too)
 *   Connected after [the Adafruit Guide](http://learn.adafruit.com/light-painting-with-raspberry-pi/hardware)
-*   Developed in **Ruby 1.9.3**
+*   Developed in **Ruby 2.7.2** (should work with at least 2.5+)
 *   Links for this Gem: [Rubygems](https://rubygems.org/gems/ws2801), [Rubydoc](http://rubydoc.info/github/b1nary/ws2801/master/WS2801), [Github](https://github.com/b1nary/ws2801)
 
 ----
