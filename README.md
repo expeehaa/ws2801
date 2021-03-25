@@ -20,6 +20,12 @@ Install directly from Rubygems
 
     gem install ws2801
 
+When using bundler, add this to your `Gemfile`
+
+    gem 'ws2801'
+    # OR for the git version
+    gem 'ws2801', git: 'https://github.com/expeehaa/ws2801'
+
 ---
 
 ## Basic Usage
